@@ -1,50 +1,21 @@
-# Welcome to your Expo app 👋
+# Valum Client
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Client for Val's UI Manager (Valum).
 
-## Get started
+Valum is a simple small-scale server utility which interacts with the Valum Server and contains a webview for accessing Web UI's.
 
-1. Install dependencies
+This project is mostly for personal use-cases such as turning on a LLM server remotely, but perhaps some self-hosting enthusiasts may find it useful.
 
-   ```bash
-   npm install
-   ```
+#### What the Valum Server Does:
 
-2. Start the app
+-   Send a wake-on-LAN request to a device
+-   Ping the device
+-   Sends a shutdown command to the device via SSH
 
-   ```bash
-    npx expo start
-   ```
+#### What the Valum Client Does:
 
-In the output, you'll find options to open the app in a
+-   Connect and control your Valum Servers
+-   Has a WebView to easily access and bookmark any WebUI's.
+-   Technically you could link the webview to anything or just open links in a browser, its mostly just for organizational purposes.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+And that's pretty much it!
