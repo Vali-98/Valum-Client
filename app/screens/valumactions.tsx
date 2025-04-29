@@ -23,9 +23,8 @@ const ValumActions: React.FC<ValumActionProps> = ({ activeServer }) => {
     const handlePingRequest = async () => {
         const result = await fetchRequest('status', 'get')
         if (result?.status !== 200) {
-            Logger.errorToast('Request failed - Status: ' + result?.status || 'Unknown')
-            const data = await result?.json()
-            if (data) Logger.error(data.toString())
+            Logger.error('Request failed - Status: ' + result?.status || 'Unknown')
+
             return
         }
         const jsonData = await result.json()
@@ -34,20 +33,21 @@ const ValumActions: React.FC<ValumActionProps> = ({ activeServer }) => {
     }
 
     const fetchRequest = async (
-        path: 'wol' | 'shutdown' | 'status',
+        path: 'wol' | 'shutdown' | 'status' | 'sleep',
         method: 'post' | 'get' = 'post'
     ) => {
         const url = Routes.valum(activeServer, path)
         const ac = new AbortController()
         const timeout = setTimeout(() => {
             ac.abort()
-        }, 1000)
+        }, 10000)
+
         const result = await fetch(url, {
             signal: ac.signal,
             method: method,
             body: '',
         }).catch((e) => {
-            Logger.info(e.toString())
+            Logger.info(e)
         })
         clearTimeout(timeout)
         return result
@@ -58,10 +58,22 @@ const ValumActions: React.FC<ValumActionProps> = ({ activeServer }) => {
         if (result?.status !== 200) {
             Logger.errorToast('Request failed - Status: ' + result?.status || 'Unknown')
             const data = await result?.json()
-            if (data) Logger.error(data.toString())
+            if (data) Logger.error(JSON.stringify(data))
             return
         }
-        Logger.infoToast('Wakeup packet sent')
+        Logger.infoToast('Wakeup Requested')
+        Logger.info('Server: ' + (await result.json())?.message)
+    }
+
+    const sleepRequest = async () => {
+        const result = await fetchRequest('sleep')
+        if (result?.status !== 200) {
+            Logger.errorToast('Request failed - Status: ' + result?.status || 'Unknown')
+            const data = await result?.json()
+            if (data) Logger.error(JSON.stringify(data))
+            return
+        }
+        Logger.infoToast('Sleep Requested')
         Logger.info('Server: ' + (await result.json())?.message)
     }
 
@@ -70,7 +82,7 @@ const ValumActions: React.FC<ValumActionProps> = ({ activeServer }) => {
         if (result?.status !== 200) {
             Logger.errorToast('Failed to shutdown server: Status ' + result?.status || 'Unknown')
             const data = await result?.json()
-            if (data) Logger.error(data.toString())
+            if (data) Logger.error(JSON.stringify(data))
             return
         }
         Logger.infoToast('Device shutdown sent')
@@ -83,7 +95,8 @@ const ValumActions: React.FC<ValumActionProps> = ({ activeServer }) => {
     const handleShutdown = () => {
         Alert.alert({
             title: 'Shutdown Device',
-            description: 'Are you sure you want to shutdown this device?',
+            description:
+                'Are you sure you want to shutdown this device?\n\nNote: Device may need to be manually awoken. MacOS devices cannot be booted via Wake-On-LAN.',
             buttons: [
                 {
                     label: 'Cancel',
@@ -109,17 +122,28 @@ const ValumActions: React.FC<ValumActionProps> = ({ activeServer }) => {
                     paddingHorizontal: 16,
                     borderRadius: 8,
                     backgroundColor: color.neutral._200,
+                    alignItems: 'center',
                 }}>
                 <TText style={{ alignItems: 'center' }}>
                     Status: <TText>{active ? 'Active' : 'Inactive'}</TText>
                 </TText>
-                <Octicons color={active ? 'green' : 'red'} name="dot-fill" size={18} />
+                <Octicons
+                    style={{ marginTop: 6 }}
+                    color={active ? 'green' : 'red'}
+                    name="dot-fill"
+                    size={18}
+                />
             </View>
             <ThemedButton label="Ping Server" variant="secondary" onPress={handlePingRequest} />
             <ThemedButton
                 label="Wake Device"
-                variant={active ? 'disabled' : 'secondary'}
+                variant={active ? 'secondary' : 'disabled'}
                 onPress={wakeRequest}
+            />
+            <ThemedButton
+                label="Sleep Device"
+                variant={active ? 'secondary' : 'disabled'}
+                onPress={sleepRequest}
             />
             <ThemedButton
                 label="Shutdown Device"
@@ -131,4 +155,3 @@ const ValumActions: React.FC<ValumActionProps> = ({ activeServer }) => {
 }
 
 export default ValumActions
-

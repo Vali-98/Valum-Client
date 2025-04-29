@@ -18,7 +18,7 @@ export default function Settings() {
         }))
     )
     return (
-        <ScrollView contentContainerStyle={{ margin: 16, rowGap: 16 }}>
+        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 64, rowGap: 16 }}>
             <SectionTitle>Server</SectionTitle>
             <ThemedTextInput
                 value={activeServer?.name ?? ''}
@@ -105,4 +105,3 @@ export default function Settings() {
         </ScrollView>
     )
 }
-

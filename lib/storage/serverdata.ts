@@ -45,7 +45,7 @@ const createBlankData = (name: string): ServerData => {
 }
 
 export namespace Routes {
-    export const valum = (server: ServerData, route: 'status' | 'wol' | 'shutdown') => {
+    export const valum = (server: ServerData, route: 'status' | 'wol' | 'shutdown' | 'sleep') => {
         const ip = server.valum.server_ip
         const port = server.valum.port
         const url = `${ip}${(port ? ':' : '') + port}/${route}`
@@ -83,4 +83,3 @@ export const useServerData = create<ServerDataStorage>()(
         }
     )
 )
-
