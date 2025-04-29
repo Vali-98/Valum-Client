@@ -15,6 +15,7 @@ export interface ServerData {
     }
     valum: {
         server_ip: string
+        port: string
     }
 }
 
@@ -24,7 +25,32 @@ interface ServerDataStorage {
     setActiveServer: (server: ServerData) => void
     setServerData: (server: ServerData) => void
     create: (data: ServerData) => void
+    createBlank: (name: string) => void
     delete: (uuid: number) => void
+}
+
+const createBlankData = (name: string): ServerData => {
+    return {
+        name: name,
+        valum: {
+            server_ip: '',
+            port: '',
+        },
+        device: {
+            ip: '',
+            services: [],
+        },
+        uuid: Date.now(),
+    }
+}
+
+export namespace Routes {
+    export const valum = (server: ServerData, route: 'status' | 'wol' | 'shutdown') => {
+        const ip = server.valum.server_ip
+        const port = server.valum.port
+        const url = `${ip}${(port ? ':' : '') + port}/${route}`
+        return url
+    }
 }
 
 export const useServerData = create<ServerDataStorage>()(
@@ -36,6 +62,9 @@ export const useServerData = create<ServerDataStorage>()(
             },
             create: (data) => {
                 set((state) => ({ data: [...state.data, data] }))
+            },
+            createBlank: (name) => {
+                get().create(createBlankData(name))
             },
             delete: (uuid) => {
                 set((state) => ({ data: state.data.filter((item) => item.uuid !== uuid) }))

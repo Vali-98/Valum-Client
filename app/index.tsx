@@ -8,6 +8,7 @@ import { useShallow } from 'zustand/react/shallow'
 import ThemedButton from './components/buttons/ThemedButton'
 import TText from './components/text/TText'
 import TextBoxModal from './components/views/TextBoxModal'
+import { LegendList } from '@legendapp/list'
 
 const ServerItem: React.FC<{ item: ServerData }> = ({ item }) => {
     const { color } = Theme.useTheme()
@@ -41,10 +42,10 @@ const ServerItem: React.FC<{ item: ServerData }> = ({ item }) => {
 export default function ServerList() {
     const { color } = Theme.useTheme()
     const [showNew, setShowNew] = useState(false)
-    const { data, create } = useServerData(
+    const { data, createBlank } = useServerData(
         useShallow((state) => ({
             data: state.data,
-            create: state.create,
+            createBlank: state.createBlank,
         }))
     )
 
@@ -56,22 +57,12 @@ export default function ServerList() {
                     defaultValue="New Server"
                     placeholder="New Server"
                     onConfirm={(name) => {
-                        create({
-                            name: name,
-                            valum: {
-                                server_ip: '',
-                            },
-                            device: {
-                                ip: '',
-                                services: [],
-                            },
-                            uuid: Date.now(),
-                        })
+                        createBlank(name)
                     }}
                 />
             </View>
             {data.length > 0 && (
-                <FlatList
+                <LegendList
                     data={data}
                     keyExtractor={(item) => item.uuid.toString()}
                     renderItem={({ item }) => <ServerItem item={item} />}
