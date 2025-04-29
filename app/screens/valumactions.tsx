@@ -96,7 +96,7 @@ const ValumActions: React.FC<ValumActionProps> = ({ activeServer }) => {
         Alert.alert({
             title: 'Shutdown Device',
             description:
-                'Are you sure you want to shutdown this device?\n\nNote: Device may need to be manually awoken. MacOS devices cannot be booted via Wake-On-LAN.',
+                'Are you sure you want to shutdown this device?\n\nNote: Device may need to be manually booted. MacOS devices cannot be booted via Wake-On-LAN.',
             buttons: [
                 {
                     label: 'Cancel',
