@@ -3,7 +3,7 @@ import { useServerData } from '@/lib/storage/serverdata'
 import { Theme } from '@/lib/theme/ThemeManager'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import React, { useRef, useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native'
 import WebView from 'react-native-webview'
 import { useShallow } from 'zustand/react/shallow'
 import ThemedButton from '../components/buttons/ThemedButton'
@@ -13,6 +13,7 @@ import { Logger } from '@/lib/storage/Logger'
 import Alert from '../components/views/Alert'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PopupMenu from '../components/views/PopupMenu'
+import TText from '../components/text/TText'
 
 export default function HomeScreen() {
     const webviewRef = useRef<WebView>(null)
@@ -89,7 +90,6 @@ export default function HomeScreen() {
 
             {services && services?.length > 0 && (
                 <WebView
-                    style={{ flex: 1 }}
                     source={source}
                     onSourceChanged={(event) => {
                         reload()
@@ -98,7 +98,44 @@ export default function HomeScreen() {
                     originWhitelist={['*']}
                     allowsFullscreenVideo
                     onError={(e) => {
-                        console.log(e.nativeEvent)
+                        Logger.error(e.nativeEvent.description)
+                    }}
+                    renderError={(domain, code, description) => (
+                        <View
+                            style={{
+                                flex: 1,
+                                rowGap: 16,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                top: 0,
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                position: 'absolute',
+                                backgroundColor: color.neutral._100,
+                            }}>
+                            <TText>Failed to load page {`:(`}</TText>
+                            <TText>Error: {code}</TText>
+                            <TText>{description}</TText>
+                        </View>
+                    )}
+                    renderLoading={() => {
+                        return (
+                            <View
+                                style={{
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    top: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    position: 'absolute',
+                                    backgroundColor: color.neutral._100,
+                                }}>
+                                <ActivityIndicator size={32} />
+                            </View>
+                        )
                     }}
                 />
             )}
@@ -210,4 +247,3 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
 })
-
