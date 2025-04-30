@@ -22,6 +22,7 @@ type PopupOptionProps = {
     onPress: (m: MenuRef) => void | Promise<void>
     warning?: boolean
     menuRef: MenuRef
+    disabled?: boolean
 }
 
 type MenuOptionProp = Omit<PopupOptionProps, 'menuRef'>
@@ -117,9 +118,11 @@ const PopupMenu: React.FC<PopupMenuProps> = ({
                 {children}
             </MenuTrigger>
             <MenuOptions customStyles={menuStyle}>
-                {options.map((item) => (
-                    <PopupOption {...item} key={item.label} menuRef={menuRef} />
-                ))}
+                {options
+                    .filter((item) => !item.disabled)
+                    .map((item) => (
+                        <PopupOption {...item} key={item.label} menuRef={menuRef} />
+                    ))}
             </MenuOptions>
         </Menu>
     )

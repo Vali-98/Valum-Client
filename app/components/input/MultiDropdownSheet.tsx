@@ -188,14 +188,16 @@ export const useDropdownStyles = () => {
             color: color.text._300,
             fontSize: 20,
             fontWeight: '500',
-            paddingBottom: spacing.xl2,
+            paddingVertical: spacing.xl2,
+            paddingBottom: 12,
+            paddingTop: 32,
+            paddingHorizontal: 24,
         },
 
         listContainer: {
-            paddingVertical: spacing.xl2,
-            paddingHorizontal: spacing.xl3,
             flexShrink: 1,
             maxHeight: '70%',
+            paddingBottom: 24,
             borderTopLeftRadius: spacing.xl2,
             borderTopRightRadius: spacing.xl2,
             backgroundColor: color.neutral._100,
@@ -204,6 +206,8 @@ export const useDropdownStyles = () => {
         listItem: {
             paddingVertical: spacing.xl,
             paddingHorizontal: spacing.xl2,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
         },
 
         listItemSelected: {
@@ -211,6 +215,8 @@ export const useDropdownStyles = () => {
             paddingHorizontal: spacing.xl2,
             backgroundColor: color.primary._200,
             borderRadius: borderRadius.xl,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
         },
 
         emptyText: {

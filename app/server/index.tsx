@@ -49,9 +49,11 @@ export default function HomeScreen() {
                 onConfirm={(label, address) => {
                     if (!activeServer) return
                     const newServer = { ...activeServer }
-                    newServer.device.services.push({ label, address, uuid: Date.now() })
+                    const newService = { label, address, uuid: Date.now() }
+                    newServer.device.services.push(newService)
                     Logger.infoToast('Service Created')
                     setServerData(newServer)
+                    setActiveService(newService)
                 }}
                 label1="Label"
                 label2="Address"
@@ -90,12 +92,12 @@ export default function HomeScreen() {
 
             {services && services?.length > 0 && (
                 <WebView
+                    style={{ backgroundColor: color.neutral._100 }}
                     source={source}
                     onSourceChanged={(event) => {
                         reload()
                     }}
                     ref={webviewRef}
-                    originWhitelist={['*']}
                     allowsFullscreenVideo
                     onError={(e) => {
                         Logger.error(e.nativeEvent.description)
@@ -165,6 +167,12 @@ export default function HomeScreen() {
                         webviewRef.current?.clearHistory?.()
                         setActiveService(value)
                     }}
+                    setData={(data) => {
+                        if (!activeServer) return
+                        const newServer = { ...activeServer }
+                        newServer.device.services = data
+                        setServerData(newServer)
+                    }}
                     keyExtractor={(item) => item.uuid.toString()}
                     selected={activeService}
                     placeholder="Select Service"
@@ -174,15 +182,21 @@ export default function HomeScreen() {
 
                 <PopupMenu
                     icon="setting"
+                    placement="top"
                     options={[
                         {
                             label: 'Delete Service',
                             icon: 'delete',
                             warning: true,
+                            disabled: !activeService,
                             onPress: (menu) =>
                                 Alert.alert({
                                     title: 'Delete Service',
-                                    description: 'Are you sure you want to delete this service?',
+                                    description: `Are you sure you want to delete \n${
+                                        activeService?.label
+                                            ? `"${activeService.label}"`
+                                            : 'this service'
+                                    } ?`,
                                     buttons: [
                                         {
                                             label: 'Cancel',
@@ -209,6 +223,7 @@ export default function HomeScreen() {
                         {
                             label: 'Edit Service',
                             icon: 'edit',
+                            disabled: !activeService,
                             onPress: (menu) => {
                                 menu.current?.close()
                                 setShowEditService(true)
@@ -247,3 +262,4 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
 })
+
