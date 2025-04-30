@@ -22,6 +22,7 @@
     "@react-navigation/native": "^7.0.14",
     "expo": "~52.0.46",
     "expo-blur": "~14.0.3",
+    "expo-build-properties": "~0.13.2",
     "expo-clipboard": "~7.0.1",
     "expo-constants": "~17.0.8",
     "expo-font": "~13.0.4",
@@ -36,6 +37,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.9",
+    "react-native-draglist": "^3.9.5",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-mmkv": "^3.2.0",
     "react-native-popup-menu": "^0.17.0",
@@ -46,8 +48,7 @@
     "react-native-web": "~0.19.13",
     "react-native-webview": "^13.12.5",
     "zod": "^3.24.3",
-    "zustand": "^5.0.3",
-    "expo-build-properties": "~0.13.2"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
