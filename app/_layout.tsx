@@ -1,9 +1,9 @@
 import { Theme } from '@/lib/theme/ThemeManager'
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
+import { setBackgroundColorAsync } from 'expo-system-ui'
 import { useEffect } from 'react'
 import { MenuProvider } from 'react-native-popup-menu'
 import 'react-native-reanimated'
@@ -22,6 +22,7 @@ export default function RootLayout() {
     useEffect(() => {
         if (loaded) {
             SplashScreen.hideAsync()
+            setBackgroundColorAsync(color.neutral._100)
         }
     }, [loaded])
 
