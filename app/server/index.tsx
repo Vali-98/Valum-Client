@@ -57,7 +57,7 @@ export default function HomeScreen() {
                 }}
                 label1="Label"
                 label2="Address"
-                defaultValue2={`http://${ip}${ip ? ':' : ''}`}
+                defaultValue2={`${ip ?? ''}${ip ? ':' : ''}`}
                 defaultValue1="New Service"
                 showPaste
             />
